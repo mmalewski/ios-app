@@ -95,6 +95,66 @@ class FileListTests: XCTestCase {
 		}
 	}
 
+	//MARK: Create Folder
+
+	/*
+	* PASSED if: Create folder view appear
+	*/
+	func testShowCreateFolder() {
+		if let bookmark: OCBookmark = UtilsTests.getBookmark() {
+			//Mocks
+			self.mockOCoreForBookmark(mockBookmark: bookmark)
+
+			self.showFileList(bookmark: bookmark)
+
+			//Actions
+			EarlGrey.select(elementWithMatcher: grey_accessibilityID("sort-bar.leftButton")).perform(grey_tap())
+
+			//Assets
+			EarlGrey.select(elementWithMatcher: grey_accessibilityID("naming-done-button")).assert(grey_sufficientlyVisible())
+			EarlGrey.select(elementWithMatcher: grey_accessibilityID("naming-cancel-button")).assert(grey_sufficientlyVisible())
+
+			//Reset status
+			EarlGrey.select(elementWithMatcher: grey_accessibilityID("naming-cancel-button")).perform(grey_tap())
+			EarlGrey.select(elementWithMatcher: grey_accessibilityID("disconnect-button")).perform(grey_tap())
+
+		} else {
+			assertionFailure("File list not loaded because Bookmark is nil")
+		}
+	}
+
+	/*
+	* PASSED if: Create folder is canceled
+	*/
+	func testCancelCreateFolder() {
+		if let bookmark: OCBookmark = UtilsTests.getBookmark() {
+			//Mocks
+			self.mockOCoreForBookmark(mockBookmark: bookmark)
+
+			self.showFileList(bookmark: bookmark)
+
+			//Actions
+			EarlGrey.select(elementWithMatcher: grey_accessibilityID("sort-bar.leftButton")).perform(grey_tap())
+
+			//Assets
+			EarlGrey.select(elementWithMatcher: grey_accessibilityID("naming-done-button")).assert(grey_sufficientlyVisible())
+			EarlGrey.select(elementWithMatcher: grey_accessibilityID("naming-cancel-button")).assert(grey_sufficientlyVisible())
+
+			//Actions
+			EarlGrey.select(elementWithMatcher: grey_accessibilityID("naming-cancel-button")).perform(grey_tap())
+
+			//Assets
+			EarlGrey.select(elementWithMatcher: grey_accessibilityID("disconnect-button")).assert(grey_sufficientlyVisible())
+
+			//Reset status
+			EarlGrey.select(elementWithMatcher: grey_accessibilityID("disconnect-button")).perform(grey_tap())
+
+		} else {
+			assertionFailure("File list not loaded because Bookmark is nil")
+		}
+	}
+
+	// MARK: - Utils
 	func showFileList(bookmark: OCBookmark) {
 		let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
 		let clientRootViewController = ClientRootViewController(bookmark: bookmark)

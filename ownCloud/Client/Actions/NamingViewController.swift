@@ -135,9 +135,11 @@ class NamingViewController: UIViewController {
 
 		// Navigation buttons
 		cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonPressed))
+		cancelButton?.accessibilityIdentifier = "naming-cancel-button"
 		navigationItem.leftBarButtonItem = cancelButton
 
 		doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
+		doneButton?.accessibilityIdentifier = "naming-done-button"
 		navigationItem.rightBarButtonItem = doneButton
 
 		//Blur View
@@ -180,6 +182,7 @@ class NamingViewController: UIViewController {
 		nameTextField.addTarget(self, action: #selector(textfieldDidChange(_:)), for: .editingChanged)
 		nameTextField.enablesReturnKeyAutomatically = true
 		nameTextField.autocorrectionType = .no
+		nameTextField.accessibilityIdentifier = "naming-cancel-button"
 
 		// Name container view
 		nameContainer.translatesAutoresizingMaskIntoConstraints = false
